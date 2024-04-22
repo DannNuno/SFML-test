@@ -1,18 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include "rectangle.hpp"
+#include <vector>
 using namespace sf;
+using namespace std;
 
-float speedX = 5.f;
-float speedY = 5.f;
+vector<Rectangle> rectangulos;
 
 int main()
 {
     RenderWindow window(VideoMode(800, 600), "SFML works!");
-    RectangleShape rectangulo({100.f, 50.f});
-    /*vector para el tamaño del rectangulo
-    .f significa float
-    */
-    rectangulo.setFillColor(Color::Magenta);
     window.setFramerateLimit(60);
+    Rectangle rect(Vector2f(60.f,30.f));
 
     while (window.isOpen())
     {
@@ -21,31 +19,22 @@ int main()
         {
             if (event.type == Event::Closed)
                 window.close();
+
+            if(event.type == Event::MouseButtonPressed){
+                if(event.mouseButton.button == Mouse::Left){
+                    float x = float(rand()%100);
+                    float y = float(rand()%100);
+                    Rectangle r= Rectangle(Vector2f(x,y));
+                    r.drawTo(window);
+                    rectangulos.push_back(r);
+                }
+            }
         }
 
-        window.clear();
-
-        if(rectangulo.getPosition().x + rectangulo.getSize().x >= 800 || rectangulo.getPosition().x < 0){
-            speedX *= -1;
-            rectangulo.setFillColor({rand()%255,rand()%255,rand()%255});
-        }
-
-        if(Mouse::isButtonPressed(Mouse::Left)){
-            rectangulo.rotate(15);
-        }
-
-        if(rectangulo.getPosition().y + rectangulo.getSize().y >= 600 || rectangulo.getPosition().y < 0){
-            speedY *= -1;
-            rectangulo.setFillColor({rand()%255,rand()%255,rand()%255});
-        }
-
-        if(Mouse::isButtonPressed(Mouse::Right)){
-            rectangulo.rotate(-15);
-        }
-
-        rectangulo.move({speedX,speedY});
-        //para mover la figura
-        window.draw(rectangulo);
+        //window.clear();
+        rect.update();
+       
+        rect.drawTo(window);
         window.display();
     }
 
