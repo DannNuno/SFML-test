@@ -7,11 +7,13 @@ using namespace sf;
 class Rectangle{
 private:
 Vector2f speed;
+Vector2f acc;
 RectangleShape shape;
 
 public:
-Rectangle(Vector2f size);
+Rectangle(Vector2f size, RenderWindow &window);
 
+void changeColorIfClick(Vector2i position);
 void update();
 void drawTo(RenderWindow &window);
 };
