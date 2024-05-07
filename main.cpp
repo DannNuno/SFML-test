@@ -1,20 +1,16 @@
 #include <SFML/Graphics.hpp>
-#include "rectangle.hpp"
-#include <vector>
+#include "Grid.hpp"
 using namespace sf;
-using namespace std;
 
-vector<Rectangle> rectangulos;
+int numCells = 20;
+int width = 700;
+int height = 700;
 
 int main()
 {
-    //setup
-    RenderWindow window(VideoMode(800, 600), "SFML works!");
-    window.setFramerateLimit(60);
-    Rectangle rect(Vector2f(60.f,30.f),window);
-    rectangulos.push_back(rect);
-
-    //loop
+    RenderWindow window(VideoMode(width, height), "SFML works!");
+    window.setFramerateLimit(5);
+    Grid grid(numCells, width, height);
     while (window.isOpen())
     {
         Event event;
@@ -22,34 +18,20 @@ int main()
         {
             if (event.type == Event::Closed)
                 window.close();
-
+            
             if(event.type == Event::MouseButtonPressed){
                 if(event.mouseButton.button == Mouse::Left){
-                    float x = float(rand()%100);
-                    float y = float(rand()%100);
-                    Rectangle r= Rectangle(Vector2f(x,y),window);
-                    rectangulos.push_back(r);
+                    int x = event.mouseButton.x;
+                    int y = event.mouseButton.y;
+                    grid.toggle(x,y);
                 }
-
-                if(event.mouseButton.button == Mouse::Right){
-                    for(auto &r : rectangulos){
-                    r.changeColorIfClick(Mouse::getPosition(window));
-                }
-                }
-
             }
         }
 
         window.clear();
-        rect.update();
-       
-        rect.drawTo(window);
-
-        for(auto &r : rectangulos){
-            r.update();
-            r.drawTo(window);
-        }
+        grid.drawTo(window);
         window.display();
+        grid.update();
     }
 
     return 0;
