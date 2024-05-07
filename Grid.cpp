@@ -80,19 +80,203 @@ void Grid::toggle(int x, int y)
 void Grid::update(){
     for(int i=0; i<this->rows; i++){
         for(int j=0; j<this->cols; j++){
-            if(j== this->cols-1){
-                //this->next[i][j]=1;
-            }else{
-            if(this->tablero[i][j]==1){
-                if(this->tablero[i][j+1]==0){
-                this->next[i][j]=0;
-                this->next[i][j+1]=1;
-                }else{
-                    this->next[i][j]=1;
+            int vecinos = this->contarVecinos(i,j);
+
+            if(this->tablero[i][j]==0){
+                if(vecinos == 3){
+                    this->next[i][j]==1;
                 }
+                //si tiene exactamente 3 vecinos nace
             }
+
+            if(this->tablero[i][j]==1){
+                if(vecinos>3 || vecinos<=1){
+                    this->next[i][j]==0;
+                }
+                //muere si tiene mas de 3 vecinos o 1 o menos
+                if(vecinos==2 || vecinos==3){
+                    this->next[i][j]==1;
+                }
+                //se mantiene vivo con 2 o 3 vecinos
             }
         }
     }
     this->tablero = this->next;
 }
+
+int Grid::contarVecinos(int i, int j){
+    int vecinos=0;
+    if(i==0){
+        if(j==0){
+
+        if(this->tablero[i+1][j]==1){
+        vecinos++;
+        }
+        if(this->tablero[i][j+1]==1){
+        vecinos++;
+        }
+        if(this->tablero[i+1][j+1]==1){
+        vecinos++;
+        }
+            
+        } else {
+            if(j==(cols-1)){
+
+                 if(this->tablero[i+1][j]==1){
+                vecinos++;
+                }
+                if(this->tablero[i][j-1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i+1][j-1]==1){
+                    vecinos++;
+                }
+
+            } else {
+                if(this->tablero[i+1][j]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i][j-1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i][j+1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i+1][j+1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i+1][j-1]==1){
+                    vecinos++;
+                }
+            }
+        }
+    }
+
+    if(i==(rows-1)){
+        if(j==0){
+            if(this->tablero[i-1][j]==1){
+            vecinos++;
+            }
+            if(this->tablero[i-1][j+1]==1){
+            vecinos++;
+            }
+            if(this->tablero[i][j+1]==1){
+            vecinos++;
+            }
+            
+        } else {
+            if(j==(cols-1)){
+                if(this->tablero[i-1][j]==1){
+                vecinos++;
+                }
+                if(this->tablero[i-1][j-1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i][j-1]==1){
+                    vecinos++;
+                }
+
+            } else {
+                if(this->tablero[i-1][j]==1){
+                vecinos++;
+                }
+                if(this->tablero[i-1][j-1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i-1][j+1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i][j-1]==1){
+                    vecinos++;
+                }
+                if(this->tablero[i][j+1]==1){
+                    vecinos++;
+                }
+            }
+        }
+    }
+
+    if(j==0){
+       if(i!=0 && i!=(rows-1)){
+            if(this->tablero[i-1][j]==1){
+            vecinos++;
+            }
+            if(this->tablero[i-1][j+1]==1){
+                vecinos++;
+            }
+            if(this->tablero[i+1][j]==1){
+                vecinos++;
+            }
+            if(this->tablero[i][j+1]==1){
+                vecinos++;
+            }
+            if(this->tablero[i+1][j+1]==1){
+                vecinos++;
+            }
+
+       }
+    }
+
+    if(j==(cols-1)){
+        if(i!=0 && i!=(rows-1)){
+            if(this->tablero[i-1][j]==1){
+            vecinos++;
+            }
+            if(this->tablero[i-1][j-1]==1){
+                vecinos++;
+            }
+            if(this->tablero[i+1][j]==1){
+                vecinos++;
+            }
+            if(this->tablero[i][j-1]==1){
+                vecinos++;
+            }
+            if(this->tablero[i+1][j-1]==1){
+                vecinos++;
+            }
+        }
+       
+    }
+
+
+    if(i!=0 && j!=0 && j!=(cols-1) && i!=(rows-1)){
+        if(this->tablero[i-1][j]==1){
+        vecinos++;
+        }
+
+        if(this->tablero[i-1][j-1]==1){
+            vecinos++;
+        }
+
+        if(this->tablero[i-1][j+1]==1){
+            vecinos++;
+        }
+
+        if(this->tablero[i+1][j]==1){
+            vecinos++;
+        }
+        if(this->tablero[i][j-1]==1){
+            vecinos++;
+        }
+        if(this->tablero[i][j+1]==1){
+            vecinos++;
+        }
+        if(this->tablero[i+1][j+1]==1){
+            vecinos++;
+        }
+        if(this->tablero[i+1][j-1]==1){
+            vecinos++;
+        }
+    }
+
+
+    return vecinos;
+}
+
+/*
+
+El juego debe empezar "Pausado".
+Cuando se de click a una celda, ésta debe cambiar de estado.
+Cuando se presiona la barra espaciadora o se da click derecho (tu elección) se empieza a ejecutar el juego.
+
+Subir el repositorio de GitHub y la branch en la que se trabajó.*/

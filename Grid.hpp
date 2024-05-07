@@ -17,6 +17,7 @@ public:
     Grid(int rows, int cols);
 
     void update();
+    int contarVecinos(int i, int j);
     void drawTo(RenderWindow  &window);
     void toggle(int x,int y);
 };
