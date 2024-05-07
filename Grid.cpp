@@ -84,18 +84,18 @@ void Grid::update(){
 
             if(this->tablero[i][j]==0){
                 if(vecinos == 3){
-                    this->next[i][j]==1;
+                    this->next[i][j]=1;
                 }
                 //si tiene exactamente 3 vecinos nace
             }
 
             if(this->tablero[i][j]==1){
                 if(vecinos>3 || vecinos<=1){
-                    this->next[i][j]==0;
+                    this->next[i][j]=0;
                 }
                 //muere si tiene mas de 3 vecinos o 1 o menos
                 if(vecinos==2 || vecinos==3){
-                    this->next[i][j]==1;
+                    this->next[i][j]=1;
                 }
                 //se mantiene vivo con 2 o 3 vecinos
             }
@@ -106,166 +106,23 @@ void Grid::update(){
 
 int Grid::contarVecinos(int i, int j){
     int vecinos=0;
-    if(i==0){
-        if(j==0){
-
-        if(this->tablero[i+1][j]==1){
-        vecinos++;
-        }
-        if(this->tablero[i][j+1]==1){
-        vecinos++;
-        }
-        if(this->tablero[i+1][j+1]==1){
-        vecinos++;
-        }
-            
-        } else {
-            if(j==(cols-1)){
-
-                 if(this->tablero[i+1][j]==1){
-                vecinos++;
-                }
-                if(this->tablero[i][j-1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i+1][j-1]==1){
-                    vecinos++;
-                }
-
-            } else {
-                if(this->tablero[i+1][j]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i][j-1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i][j+1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i+1][j+1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i+1][j-1]==1){
-                    vecinos++;
-                }
+    int coordi, coordj;
+    
+    for(int k=-1; k<2; k++){
+        //recorre de i-1 a i+1
+        for(int l=-1; l<2; l++){
+            //recorre de j-1 a j+1
+            coordi = i + k;
+            coordj = j + l;
+            if(k == 0 && l == 0){
+                continue;
+                //saltarse i,j ya que esa es la celda que se esta revisando
             }
-        }
-    }
-
-    if(i==(rows-1)){
-        if(j==0){
-            if(this->tablero[i-1][j]==1){
-            vecinos++;
-            }
-            if(this->tablero[i-1][j+1]==1){
-            vecinos++;
-            }
-            if(this->tablero[i][j+1]==1){
-            vecinos++;
-            }
-            
-        } else {
-            if(j==(cols-1)){
-                if(this->tablero[i-1][j]==1){
-                vecinos++;
-                }
-                if(this->tablero[i-1][j-1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i][j-1]==1){
-                    vecinos++;
-                }
-
-            } else {
-                if(this->tablero[i-1][j]==1){
-                vecinos++;
-                }
-                if(this->tablero[i-1][j-1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i-1][j+1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i][j-1]==1){
-                    vecinos++;
-                }
-                if(this->tablero[i][j+1]==1){
-                    vecinos++;
-                }
-            }
-        }
-    }
-
-    if(j==0){
-       if(i!=0 && i!=(rows-1)){
-            if(this->tablero[i-1][j]==1){
-            vecinos++;
-            }
-            if(this->tablero[i-1][j+1]==1){
+            if(coordi >= 0 && coordj >=0 && coordi < rows && coordj < cols && this->tablero[coordi][coordj]==1){
+                //1. revisa si no es menor a 0 o mayor a rows/cols (que no salga del borde)
+                //2. revisa que sea 1
                 vecinos++;
             }
-            if(this->tablero[i+1][j]==1){
-                vecinos++;
-            }
-            if(this->tablero[i][j+1]==1){
-                vecinos++;
-            }
-            if(this->tablero[i+1][j+1]==1){
-                vecinos++;
-            }
-
-       }
-    }
-
-    if(j==(cols-1)){
-        if(i!=0 && i!=(rows-1)){
-            if(this->tablero[i-1][j]==1){
-            vecinos++;
-            }
-            if(this->tablero[i-1][j-1]==1){
-                vecinos++;
-            }
-            if(this->tablero[i+1][j]==1){
-                vecinos++;
-            }
-            if(this->tablero[i][j-1]==1){
-                vecinos++;
-            }
-            if(this->tablero[i+1][j-1]==1){
-                vecinos++;
-            }
-        }
-       
-    }
-
-
-    if(i!=0 && j!=0 && j!=(cols-1) && i!=(rows-1)){
-        if(this->tablero[i-1][j]==1){
-        vecinos++;
-        }
-
-        if(this->tablero[i-1][j-1]==1){
-            vecinos++;
-        }
-
-        if(this->tablero[i-1][j+1]==1){
-            vecinos++;
-        }
-
-        if(this->tablero[i+1][j]==1){
-            vecinos++;
-        }
-        if(this->tablero[i][j-1]==1){
-            vecinos++;
-        }
-        if(this->tablero[i][j+1]==1){
-            vecinos++;
-        }
-        if(this->tablero[i+1][j+1]==1){
-            vecinos++;
-        }
-        if(this->tablero[i+1][j-1]==1){
-            vecinos++;
         }
     }
 
